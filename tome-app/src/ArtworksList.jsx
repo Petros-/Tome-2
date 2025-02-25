@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import db from "./db.js";
 import {collection, getDocs} from "firebase/firestore";
+import { Link } from "react-router-dom";
 
 function ArtworksList () {
     const [artworks, setArtworks] = useState([]);
@@ -24,7 +25,7 @@ function ArtworksList () {
     return (
         <>
             {artworks.map(artwork => (
-                <div key={artwork.id}>{artwork.title}, {artwork.createdAt?.toDate().toLocaleString()}</div>
+                <div key={artwork.id}><Link to={`/artwork/${artwork.id}`} >{artwork.title}</Link> {artwork.createdAt?.toDate().toLocaleString()}</div>
             ))}
         </>
     )

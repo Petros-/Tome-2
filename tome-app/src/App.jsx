@@ -1,17 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import TopNav from './TopNav'
-import ArtworksList from './ArtworksList'
+import { useState } from 'react';
+import './App.css';
+import TopNav from './TopNav';
+import Home from './Home';
+import { BrowserRouter, Route, Routes} from 'react-router-dom';
+import ArtworkDetails from './ArtworkDetails';
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
+    <BrowserRouter>
       <TopNav/>
-      <ArtworksList />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/artwork/:id" element={<ArtworkDetails />} />
+      </Routes>
+    </BrowserRouter>
     </>
   )
 }
