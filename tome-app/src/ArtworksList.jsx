@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import db from "./db.js";
-import {collection, getDocs} from "firebase/firestore";
+import {collection, getDocs, deleteDoc, doc} from "firebase/firestore";
 import { Link } from "react-router-dom";
 
 function ArtworksList () {
@@ -21,6 +21,17 @@ function ArtworksList () {
         fetchArt();
     }, [db]);
 
+    const handleDelete = async(id) => {
+        try {  
+            await deleteDoc(doc(db, 'artworks', id));
+            setArtworks(prevArtworks => prevArtworks.filter(artwork => artwork.id !== id));
+
+        } catch (error) {
+            console.error("Error with the delete:", error)
+        }
+
+    }
+
     
     return (
         <>
@@ -29,6 +40,7 @@ function ArtworksList () {
                     {artwork.createdAt?.toDate().toLocaleString()}
                     {artwork.medium}
                     <Link to={`/edit/${artwork.id}`}><button>Edit</button></Link>
+                    <button onClick={() => handleDelete(artwork.id)}>Delete</button>
                  </div>
             ))}
         </>
