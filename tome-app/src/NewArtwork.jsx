@@ -1,8 +1,21 @@
-import React, {useState} from "react";
-import {collection, addDoc} from "firebase/firestore";
-import db from './db'
+import React, {useState, useEffect} from "react";
+import {collection, addDoc, setDoc, doc} from "firebase/firestore";
+import db from './db';
+import {useParams, useNavigate} from 'react-router-dom';
 
-function NewArtwork () {
+function NewArtwork ( {existingData}) {
+    // get id from url if editing
+    const {id} = useParams();
+    const navigate = useNavigate();
+
+    //populate the form if editing an existing item
+    useEffect(() => {
+        if (existingData) {
+            setTitle(existingData.title || '');
+            setMedium(existingData.medium || '')
+        }
+    }, [existingData]);
+
     // const [artwork, setArtwork] = useState('');
     const [title, setTitle] = useState('');
     const [medium, setMedium] = useState('');
@@ -11,18 +24,32 @@ function NewArtwork () {
         event.preventDefault()
 
         try {
-            // Add a new document with a generated id
-            const docRef = await addDoc(collection(db, "artworks"), {
-                title: title,
-                medium: medium,
-                createdAt: new Date()
-            });
+            if (id) {
+                await setDoc(doc(db, "artworks", id), {
+                    title,
+                    medium,
+                    updtatedAt: new Date()
+                }, {merge: true});
+                console.log("Document updated:", id);
 
-            console.log("Doc written, id:", docRef.id);
+            } else {
 
-            // clear the fields
-            setTitle('')
-            setMedium('')
+                // Add a new document with a generated id
+                const docRef = await addDoc(collection(db, "artworks"), {
+                    title: title,
+                    medium: medium,
+                    createdAt: new Date()
+                });
+    
+                console.log("Doc written, id:", docRef.id);
+    
+                // clear the fields
+                setTitle('')
+                setMedium('')
+            }
+
+            // go back to the list after editing the form
+            navigate("/");
 
         } catch (error) {
             console.error("There was a problem:", error);

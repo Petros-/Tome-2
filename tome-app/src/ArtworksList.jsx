@@ -25,7 +25,11 @@ function ArtworksList () {
     return (
         <>
             {artworks.map(artwork => (
-                <div key={artwork.id}><Link to={`/artwork/${artwork.id}`} >{artwork.title}</Link> {artwork.createdAt?.toDate().toLocaleString()}</div>
+                <div key={artwork.id}><Link to={`/artwork/${artwork.id}`} >{artwork.title}</Link>
+                    {artwork.createdAt?.toDate().toLocaleString()}
+                    {artwork.medium}
+                    <Link to={`/edit/${artwork.id}`}><button>Edit</button></Link>
+                 </div>
             ))}
         </>
     )
