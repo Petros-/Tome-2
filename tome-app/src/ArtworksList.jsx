@@ -35,6 +35,8 @@ function ArtworksList () {
     
     return (
         <>
+        <div className="absolute top-16 w-full">
+
             {artworks.map(artwork => (
                 <div key={artwork.id}><Link to={`/artwork/${artwork.id}`} >{artwork.title}</Link>
                     {artwork.createdAt?.toDate().toLocaleString()}
@@ -43,6 +45,7 @@ function ArtworksList () {
                     <button onClick={() => handleDelete(artwork.id)}>Delete</button>
                  </div>
             ))}
+        </div>
         </>
     )
 }

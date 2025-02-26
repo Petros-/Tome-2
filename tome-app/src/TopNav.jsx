@@ -7,7 +7,7 @@ import Button from './Button'
 function TopNav () {
     return (
         <>
-            <div className="flex flex-row justify-between border border-gray-300 items-center p-2 w-full m-0">
+            <div className="flex flex-row justify-between border border-gray-300 items-center p-4 pl-6 pr-6 w-full m-0 absolute top-0 left-0 bg-white">
             <Link to="/"><img src={TomeSvg} alt="Tome Logo" className="sm" /></Link>
                 <div className="flex flex-row gap-2">
                     <Link to="/new" ><Button variant="secondary" size="small">Add</Button></Link>
