@@ -12,15 +12,17 @@ function App() {
 
   return (
     <>
-    <BrowserRouter>
-      <TopNav/>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/artwork/:id" element={<ArtworkDetails />} />
-        <Route path="/new" element={<NewArtwork />} />
-        <Route path="/edit/:id" element={<EditArtwork />} />
-      </Routes>
-    </BrowserRouter>
+    <div className='m-0'>
+      <BrowserRouter>
+        <TopNav/>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/artwork/:id" element={<ArtworkDetails />} />
+          <Route path="/new" element={<NewArtwork />} />
+          <Route path="/edit/:id" element={<EditArtwork />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
     </>
   )
 }
