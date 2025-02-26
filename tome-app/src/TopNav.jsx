@@ -1,21 +1,18 @@
 import React from "react";
 import {Link, Route} from "react-router-dom";
 import TomeSvg from './assets/Tome.svg';
+import Button from './Button'
 
 
 function TopNav () {
     return (
         <>
-            <div>
-            <Link to="/"><img src={TomeSvg} alt="Tome Logo" width="100" height="16" /></Link>
-                <ul>
-                    <li>
-                        <Link to="/new" >Add</Link>
-                    </li>
-                    <li>
-                        <p>Sign in</p>
-                    </li>
-                </ul>
+            <div className="flex flex-row justify-between border border-gray-300 items-center">
+            <Link to="/"><img src={TomeSvg} alt="Tome Logo" className="sm" /></Link>
+                <div className="flex flex-row gap-2">
+                    <Link to="/new" ><Button variant="secondary" size="small">Add</Button></Link>
+                    <Button variant="secondary" size="small">Sign in</Button>
+                </div>
             </div>
         </>
     )
