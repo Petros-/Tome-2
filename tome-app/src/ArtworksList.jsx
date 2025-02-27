@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import db from "./db.js";
 import {collection, getDocs, deleteDoc, doc} from "firebase/firestore";
 import { Link } from "react-router-dom";
+import Button from "./Button.jsx";
 
 function ArtworksList () {
     const [artworks, setArtworks] = useState([]);
@@ -35,14 +36,13 @@ function ArtworksList () {
     
     return (
         <>
-        <div className="absolute top-16 w-full">
-
+        <div className="absolute top-16 grid grid-rows-4 gap-4 h-full items-center">
             {artworks.map(artwork => (
-                <div key={artwork.id}><Link to={`/artwork/${artwork.id}`} >{artwork.title}</Link>
+                <div key={artwork.id} className="flex flex-row gap-3 items-center border border-gray-300 p-4"><Link to={`/artwork/${artwork.id}`} >{artwork.title}</Link>
+                    {artwork.medium} • 
                     {artwork.createdAt?.toDate().toLocaleString()}
-                    {artwork.medium}
-                    <Link to={`/edit/${artwork.id}`}><button>Edit</button></Link>
-                    <button onClick={() => handleDelete(artwork.id)}>Delete</button>
+                    <Link to={`/edit/${artwork.id}`}><Button variant="secondary" size="small">Edit</Button></Link>
+                    <Button onClick={() => handleDelete(artwork.id)} variant="secondary" size="small">Delete</Button>
                  </div>
             ))}
         </div>
