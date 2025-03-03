@@ -4,50 +4,53 @@ import db from "./db.js";
 import { Link } from "react-router-dom";
 import Button from "./Button.jsx";
 
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+// import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+// import firebase from 'firebase/compat/app';
+// import 'firebase/compat/auth';
 
 
 function ArtworksList() {
     const [artworks, setArtworks] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
-    const [user, setUser] = useState({});
+    // const [user, setUser] = useState(null);
 
-    // Configure Firebase.
-    const config = {
-        apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-        authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-        projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID
-    };
-    firebase.initializeApp(config);
+    // // Repeated block of code for auth stuff here
+    // const config = {
+    //     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    //     authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    //     projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID
+    // };
+    // firebase.initializeApp(config);
+
+    // useEffect(() => {
+    //     const unregisteredAuthObserver = firebase.auth().onAuthStateChanged((user) => {
+    //         if (user) {
+    //             console.log("Yo", user.uid)
+    //             setUser(user)
+    //         } else {
+    //             setUser(null);
+    //         }
+    //     })
+    //     return () => unregisteredAuthObserver();
+    // }, [])
+
+    // console.log(user.uid);
 
     useEffect(() => {
-        const unregisteredAuthObserver = firebase.auth().onAuthStateChanged((user) => {
-            console.log(user.uid)
-            setUser(user)
-        })
-        return () => unregisteredAuthObserver
-    }, [user.uid])
 
-    console.log(user.uid);
+        // if (!user.uid) {
+        //     return
+        // }
 
-    useEffect(() => {
-
-        if (!user.uid) {
-            return
-        }
-
+        const userIdTemp = 'xCUZ9GKaFmjApOlaTpH7';
         const fetchArt = async () => {
             try {
-                
-                const q = query(collection(db, "users", user.uid, "artworks"), orderBy("createdAt"));
+                const q = query(collection(db, "users", userIdTemp, "artworks"), orderBy("createdAt"));
 
                 onSnapshot(q, (doc) => {
-                    console.log("Current data:",);
                     setArtworks(doc.docs);
-                })
+                });
             } catch (error) {
                 console.log("An error happened:", error);
                 setHasError(true)
@@ -58,7 +61,7 @@ function ArtworksList() {
         fetchArt();
         return () => onSnapshot;
 
-    }, [user.uid]);
+    }, []);
 
     const handleDelete = async (id) => {
         try {
@@ -83,7 +86,7 @@ function ArtworksList() {
         <>
             <div className="absolute top-16 grid grid-rows-4 gap-4 h-full items-center">
                 {artworks.map((artwork) => {
-                    <div key={artwork.id} className="flex flex-row gap-3 items-center border border-gray-300 p-4"><Link to={`/artwork/${artwork.id}`} >{artwork.title}</Link>
+                    return <div key={artwork.id} className="flex flex-row gap-3 items-center border border-gray-300 p-4"><Link to={`/artwork/${artwork.id}`} >{artwork.title}</Link>
                         {artwork.data().title} •
                         {artwork.data().createdAt?.toDate().toLocaleString()}
                         <Link to={`/edit/${artwork.id}`}><Button variant="secondary" size="small">Edit</Button></Link>
